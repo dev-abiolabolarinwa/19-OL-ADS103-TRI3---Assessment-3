@@ -45,18 +45,6 @@ int MaxHeap::parent_node(int _integer) {
 
 }
 
-// Calculates and then returns the index of the right child.
-int MaxHeap::right_child_node(int _integer) {
-	return ((2 * _integer) + 2);
-
-}
-
-// Calculates and then returns the index of the left child.
-int MaxHeap::left_child_node(int _integer) {
-	return ((2 * _integer) + 1);
-
-}
-
 void MaxHeap::printArray(int arr[], int n) {
 	for (int i = 0; i < n; ++i)
 		cout << arr[i] << " ";
@@ -71,32 +59,14 @@ void MaxHeap::swap_values(int * x, int * y) {
 	*x = stored_temp;
 }
 
-// Function Calls the max_heap to sort the heap amd loops
-// through the elements list to sort.
-void MaxHeap::sort_elements_heap(int heap_array[]) {
-	int size = this->max_size;
-	for (int i = 0; i < size; i++) {
-		element_array[i] = heap_array[i];
-	}
-	
-	for (int i = size / 2 - 1; i >= 0; i--) {
-		max_heapify(i);
-	}
-
-	for (int i = size - 1; i >= 0; i--) {
-		swap_values(&element_array[0], &element_array[i]);
-		max_heapify(i);
-	}
-}
-
 // Function will recursively call rearrange the heap
 // using a both left and right child properties, form
 // the specified element node index.
 void MaxHeap::max_heapify(int element_at) {
 	int max_value = element_at;
 	
-	int right_branch = right_child_node(element_at);
-	int left_branch = left_child_node(element_at);
+	int right_branch = 2 * element_at + 2;
+	int left_branch = 2 * element_at + 1;
 
 	if (left_branch < this->max_size && element_array[left_branch] > element_array[max_value]) {
 		max_value = left_branch;
@@ -128,14 +98,13 @@ void MaxHeap::insert_new_element(int element) {
 
 	element_array[position] = element;
 
-
-	stringtoPrint();
-	stringtoString();
+	string_print_to_file();
 	while (this->element_array[parent_node(position)] < this->element_array[position] && position != 0) {
 		swap_values(&this->element_array[parent_node(position)], & this->element_array[position]);
 		position = parent_node(position);
 	}
-	stringtoString();
+	string_print_to_file();
+
 }
 
 // Parses throught the elements and removes the element at a
@@ -157,7 +126,7 @@ void MaxHeap::delete_element(int index) {
 
 // Prints to the variables in order(Breadth-first-search) to a
 // file.
-void MaxHeap::stringtoPrint() {
+void MaxHeap::string_print_to_file() {
 	ofstream of;
 
 	of.open("output_" + this->file_filename, ofstream::out | ofstream::app);
@@ -169,16 +138,6 @@ void MaxHeap::stringtoPrint() {
 	of << endl;
 	of.close();
 }
-
-// Prints the variables in order to the screen.
-void MaxHeap::stringtoString() {
-	for (int i = 0; i < this->size; ++i) {
-		cout << this->element_array[i] << " ";
-	}
-	cout << endl;
-}
-
-
 
 // Desctructor.
 MaxHeap::~MaxHeap() { }
