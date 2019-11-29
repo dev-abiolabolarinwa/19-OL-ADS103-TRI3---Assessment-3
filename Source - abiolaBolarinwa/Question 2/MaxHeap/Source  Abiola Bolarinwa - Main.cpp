@@ -26,6 +26,7 @@ int convert_size(string const file[]) {
 	return atoi(file[0].c_str());
 }
 
+// Loads a new file to be sorted.
 void load_new_file () {
 	string stored_filename;
 
